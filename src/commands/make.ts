@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import { Connection } from "mongoose";
 import path from "path";
+import { MigrationConfig } from "../types.js";
 
 const MIGRATION_TEMPLATE = `import { Migration } from "mangoose-migrate/core";
 import { CreateModel, AddField } from "mangoose-migrate/operations";
@@ -25,21 +26,22 @@ export default class {{className}} extends Migration {
 export class MakeCommand {
   constructor(
     private readonly connection: Connection,
-    private readonly migrationsPath: string = "migrations"
+    private readonly config: MigrationConfig
   ) {}
 
   async execute(name: string): Promise<void> {
     // ensure migrations path exists
-    await fs.mkdir(this.migrationsPath, { recursive: true });
+    await fs.mkdir(this.config.migrationsPath, { recursive: true });
 
     // get next migration number
-    const files = await fs.readdir(this.migrationsPath);
+    const files = await fs.readdir(this.config.migrationsPath);
     const nextNum = files.length + 1;
     const migrationNum = nextNum.toString().padStart(4, "0");
 
     // create filename
-    const filename = `${migrationNum}_${name}.js`;
-    const filepath = path.join(this.migrationsPath, filename);
+    const _name = name.replace("-", "_");
+    const filename = `${migrationNum}_${_name}.js`;
+    const filepath = path.join(this.config.migrationsPath, filename);
 
     // generate class name from name in PascalCase
     const className = name
