@@ -19,6 +19,6 @@ export interface MigrationFile {
 
 export interface MigrationConfig {
   connectionUri: string;
-  migrationsPath?: string;
+  migrationsPath: string;
   options: ConnectOptions;
 }
