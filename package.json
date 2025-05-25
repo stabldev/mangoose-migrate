@@ -1,21 +1,21 @@
 {
-  "name": "mangoose",
+  "name": "mangoose-migrate",
   "version": "0.0.1",
-  "description": "Migration tool for Mongoose (MongoDB), inspired by Django.",
+  "description": "A lightweight migration tool for Mongoose (MongoDB), inspired by Django's migration system.",
   "keywords": [
-    "mangoose",
+    "mongoose",
     "mongodb",
     "migrations",
     "schema",
     "cli"
   ],
-  "homepage": "https://github.com/moonlitgrace/mangoose#readme",
+  "homepage": "https://github.com/moonlitgrace/mangoose-migrate#readme",
   "bugs": {
-    "url": "https://github.com/moonlitgrace/mangoose/issues"
+    "url": "https://github.com/moonlitgrace/mangoose-migrate/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moonlitgrace/mangoose.git"
+    "url": "git+https://github.com/moonlitgrace/mangoose-migrate.git"
   },
   "license": "MIT",
   "author": "moonlitgrace",
