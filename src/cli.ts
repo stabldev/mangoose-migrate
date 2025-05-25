@@ -3,7 +3,7 @@ import { Command } from "commander";
 import mongoose from "mongoose";
 import { MigrateCommand } from "./commands/migrate.js";
 
-async function main() {
+async function runCLI() {
   const program = new Command();
   program.version("0.0.1");
 
@@ -33,7 +33,11 @@ async function main() {
   program.parse(process.argv);
 }
 
-main().catch((err) => {
-  console.error(`Error: ${err}`);
-  process.exit(1);
-});
+export { runCLI };
+
+if (require.main) {
+  runCLI().catch((err) => {
+    console.error(`Error: ${err}`);
+    process.exit(1);
+  });
+}
