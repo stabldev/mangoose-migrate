@@ -1,16 +1,27 @@
-import { defineConfig } from "tsup";
+import { defineConfig, Options } from "tsup";
 
-export default defineConfig({
-  entry: {
-    cli: "src/cli.ts",
-    "core/index": "src/core/index.ts",
-    "operations/index": "src/operations/index.ts",
-  },
+const baseConfig: Options = {
   format: ["cjs"],
-  dts: true,
-  clean: true,
   target: "es2020",
   outDir: "dist",
-  sourcemap: true,
   external: ["mongoose"],
-});
+  clean: true,
+};
+
+export default defineConfig([
+  {
+    ...baseConfig,
+    entry: ["src/cli.ts"],
+    dts: false,
+    sourcemap: false,
+  },
+  {
+    ...baseConfig,
+    entry: {
+      "core/index": "src/core/index.ts",
+      "operations/index": "src/operations/index.ts",
+    },
+    dts: true,
+    sourcemap: true,
+  },
+]);
