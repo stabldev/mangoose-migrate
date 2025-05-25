@@ -1,8 +1,12 @@
 # 🥭 mangoose-migrate
 
+![NPM Version](https://img.shields.io/npm/v/mangoose-migrate?style=flat-square)
+![GitHub License](https://img.shields.io/github/license/moonlitgrace/mangoose-migrate?style=flat-square)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/moonlitgrace/mangoose-migrate/release.yml?style=flat-square)
+
 A lightweight migration tool for Mongoose (MongoDB), inspired by Django's migration system.
 
-> Note: WIP 🚧
+> WIP 🚧
 
 ## Installation
 
@@ -14,9 +18,10 @@ Or use directly with npx:
 
 ```bash
 npx mangoose-migrate [command]
+# pnpm dlx mangoose-migrate [command]
 ```
 
-## Commands
+## Basic Commands
 
 Create new migration:
 
@@ -38,9 +43,10 @@ npx mangoose-migrate migrate
 export MONGODB_URI="mongodb://user:pass@localhost:27017/mydb?authSource=admin"
 ```
 
-### Option 2: Config File (`mangoose-migrate.config.js`)
+### Option 2: Config File
 
 ```js
+// mangoose-migrate.config.js
 module.exports = {
   connectionUri: "mongodb://localhost:27017/mydb",
   migrationsPath: "./migrations",
@@ -60,11 +66,11 @@ npx mangoose-migrate migrate \\
   --migrations-path "./db/migrations"
 ```
 
-### Configuration Options
+### Options
 
 | Key              | Required | Default          | Description                 |
 | ---------------- | -------- | ---------------- | --------------------------- |
-| `connectionUri`  | Yes      | -                | MongoDB connection string   |
+| `connectionUri`  | Yes      | -                | MongoDB connection uri      |
 | `migrationsPath` | No       | `"./migrations"` | Path to migration files     |
 | `options`        | No       | `{}`             | Mongoose connection options |
 
