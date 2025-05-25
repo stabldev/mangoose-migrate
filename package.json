@@ -27,9 +27,13 @@
     "dist"
   ],
   "exports": {
-    ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+    "./core": {
+      "require": "./dist/core/index.cjs",
+      "types": "./dist/core/index.d.cts"
+    },
+    "./operations": {
+      "require": "./dist/operations/index.cjs",
+      "types": "./dist/operations/index.d.cts"
     }
   },
   "scripts": {
