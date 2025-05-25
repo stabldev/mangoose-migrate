@@ -1,7 +1,7 @@
 import { Connection } from "mongoose";
 import { MigrationOperation } from "../types.js";
 
-export abstract class Migration {
+export class Migration {
   private operations: MigrationOperation[] = [];
 
   async up(connection: Connection): Promise<void> {
