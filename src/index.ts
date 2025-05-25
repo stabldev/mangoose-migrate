@@ -1,5 +1,5 @@
-import mongoose, { mongo } from "mongoose";
-import { MangooseOptions } from "./types";
+import mongoose from "mongoose";
+import { MangooseOptions } from "./types.js";
 
 export class Mangoose {
   constructor(private readonly options: MangooseOptions) {}
