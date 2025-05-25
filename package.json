@@ -36,9 +36,13 @@
   "scripts": {
     "build": "tsup",
     "prepublishOnly": "npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "changeset": "changeset",
+    "release:version": "changeset version",
+    "release:publish": "npm run build && changeset publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.4",
     "@types/node": "^22.15.21",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
