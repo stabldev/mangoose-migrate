@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { MigrateCommand } from "./commands/migrate.js";
 import { MakeCommand } from "./commands/make.js";
 import { loadConfig } from "./config.js";
-import { logger } from "./utils.js";
+import { gracefulExit } from "./utils.js";
 
 async function main() {
   const program = new Command();
@@ -35,7 +35,7 @@ async function main() {
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error(`Failed to connect to MongoDB: ${err}`);
-    process.exit(1);
+    await gracefulExit(connection);
   }
 
   // register make command
@@ -43,6 +43,7 @@ async function main() {
     try {
       const cmd = new MakeCommand(connection, config);
       await cmd.execute(name);
+      await gracefulExit(connection);
     } catch (err) {
       console.error(`Error creating migration: ${err}`);
       process.exit(1);
@@ -54,6 +55,7 @@ async function main() {
     try {
       const cmd = new MigrateCommand(connection, config);
       await cmd.execute();
+      await gracefulExit(connection);
     } catch (err) {
       console.error(`Migration failed: ${err}`);
       process.exit(1);
