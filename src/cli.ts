@@ -15,7 +15,7 @@ async function main() {
 
   // load configuration
   const options = program.opts();
-  const config = await loadConfig(options.path);
+  const config = await loadConfig(options.config);
 
   // create connection
   const connection = await mongoose
@@ -68,6 +68,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  logger.error(`Program error: ${err}`);
+  logger.error(err);
   process.exit(1);
 });

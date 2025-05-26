@@ -22,12 +22,13 @@ export class MigrationLoader {
 
   async loadMigration(fileName: string): Promise<MigrationFile> {
     const fullPath = path.join(this.migrationsPath, fileName);
-    const migrationModule = await import(fullPath);
+    const importedModule = await import(fullPath);
+    const migrationModule = importedModule.default || importedModule;
 
-    if (!migrationModule.default) {
+    if (!migrationModule) {
       throw new Error(`Migration ${fileName} has no default export`);
     }
 
-    return new migrationModule.default();
+    return migrationModule;
   }
 }

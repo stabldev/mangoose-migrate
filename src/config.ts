@@ -15,9 +15,10 @@ export async function loadConfig(
   let customConfig: Partial<MigrationConfig> = {};
 
   try {
-    const configFile = configPath || "./mangoose-migrate.config.js";
+    const configFile = configPath || "mangoose-migrate.config.js";
     const fullPath = path.resolve(process.cwd(), configFile);
-    customConfig = new (await import(fullPath)).default();
+    const importConfigFile = await import(fullPath);
+    customConfig = importConfigFile.default || importConfigFile;
   } catch (err) {
     if (configPath) {
       throw new Error(`Failed to load config file: ${configPath}`);
