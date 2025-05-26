@@ -1,5 +1,5 @@
-import { Connection, ConnectOptions } from "mongoose";
-import { Document } from "mongoose";
+import { Connection, ConnectOptions } from 'mongoose';
+import { Document } from 'mongoose';
 
 export interface MigrationModel extends Document {
   name: string;

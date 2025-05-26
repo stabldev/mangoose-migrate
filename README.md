@@ -48,10 +48,10 @@ export MONGODB_URI="mongodb://user:pass@localhost:27017/mydb?authSource=admin"
 ```js
 // mangoose-migrate.config.js
 module.exports = {
-  connectionUri: "mongodb://localhost:27017/mydb",
-  migrationsPath: "./migrations",
+  connectionUri: 'mongodb://localhost:27017/mydb',
+  migrationsPath: './migrations',
   options: {
-    authSource: "admin",
+    authSource: 'admin',
     retryWrites: true,
     // ...
   },
@@ -77,19 +77,19 @@ npx mangoose-migrate migrate \\
 ## Migration Example
 
 ```js
-import { Migration } from "mangoose-migrate/core";
-import { CreateModel } from "mangoose-migrate/operations";
+import { Migration } from 'mangoose-migrate/core';
+import { CreateModel } from 'mangoose-migrate/operations';
 
 export default class InitialMigration extends Migration {
   constructor() {
-    super("initial");
+    super('initial');
   }
 
   async up(db) {
     this.addOperation(
-      new CreateModel("User", {
+      new CreateModel('User', {
         name: { type: String, required: true },
-      })
+      }),
     );
   }
 }

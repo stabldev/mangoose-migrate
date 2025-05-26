@@ -1,22 +1,22 @@
-import mongoose, { Connection, Model } from "mongoose";
-import { MigrationModel } from "../types.js";
+import mongoose, { Connection, Model } from 'mongoose';
+import { MigrationModel } from '../types.js';
 
 export class MigrationRecorder {
   private model: Model<MigrationModel>;
 
   constructor(private readonly connection: Connection) {
     // temporary init, replace later with proper schema
-    this.model = connection.model<MigrationModel>("Migration");
+    this.model = connection.model<MigrationModel>('Migration');
   }
 
   async init(): Promise<void> {
     // proper init
     this.model = this.connection.model(
-      "Migration",
+      'Migration',
       new mongoose.Schema<MigrationModel>({
         name: { type: String, required: true, unique: true },
         appliedAt: { type: Date, default: Date.now },
-      })
+      }),
     );
 
     // create collection if doesn't exists
@@ -37,7 +37,7 @@ export class MigrationRecorder {
   }
 
   async getAppliedMigrations() {
-    const docs = await this.model.find().sort("appliedAt");
+    const docs = await this.model.find().sort('appliedAt');
     return docs.map((doc) => doc.name);
   }
 }

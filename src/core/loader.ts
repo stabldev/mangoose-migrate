@@ -1,6 +1,6 @@
-import fs from "fs/promises";
-import path from "path";
-import { MigrationFile } from "../types.js";
+import fs from 'fs/promises';
+import path from 'path';
+import { MigrationFile } from '../types.js';
 
 export class MigrationLoader {
   constructor(private readonly migrationsPath: string) {}
@@ -9,9 +9,9 @@ export class MigrationLoader {
     try {
       // get all migration files with .js extension
       const files = await fs.readdir(this.migrationsPath);
-      return files.filter((file) => file.endsWith(".js")).sort();
+      return files.filter((file) => file.endsWith('.js')).sort();
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === "ENOENT") {
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
         // create migrations dir if doesn't exist
         await fs.mkdir(this.migrationsPath, { recursive: true });
         return [];

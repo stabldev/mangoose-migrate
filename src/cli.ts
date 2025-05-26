@@ -1,17 +1,14 @@
 #!/usr/bin/env node
-import { Command } from "commander";
-import mongoose from "mongoose";
-import { MigrateCommand } from "./commands/migrate.js";
-import { MakeCommand } from "./commands/make.js";
-import { loadConfig } from "./config.js";
-import { gracefulExit } from "./utils.js";
+import { Command } from 'commander';
+import mongoose from 'mongoose';
+import { MigrateCommand } from './commands/migrate.js';
+import { MakeCommand } from './commands/make.js';
+import { loadConfig } from './config.js';
+import { gracefulExit } from './utils.js';
 
 async function main() {
   const program = new Command();
-  program
-    .name("mangoose-migrate")
-    .version("1.0.0")
-    .option("-c, --config <path>");
+  program.name('mangoose-migrate').version('1.0.0').option('-c, --config <path>');
 
   // load configuration
   const options = program.opts();
@@ -24,7 +21,7 @@ async function main() {
     })
     .asPromise();
 
-  connection.on("error", (err) => {
+  connection.on('error', (err) => {
     console.error(`MongoDB connection error: ${err}`);
     process.exit(1);
   });
@@ -32,14 +29,14 @@ async function main() {
   // verify connection
   try {
     await connection.db?.command({ ping: 1 });
-    console.log("Connected to MongoDB");
+    console.log('Connected to MongoDB');
   } catch (err) {
     console.error(`Failed to connect to MongoDB: ${err}`);
     await gracefulExit(connection, 1);
   }
 
   // register make command
-  program.command("make <name>").action(async (name) => {
+  program.command('make <name>').action(async (name) => {
     try {
       const cmd = new MakeCommand(connection, config);
       await cmd.execute(name);
@@ -51,7 +48,7 @@ async function main() {
   });
 
   // register migrate command
-  program.command("migrate").action(async () => {
+  program.command('migrate').action(async () => {
     try {
       const cmd = new MigrateCommand(connection, config);
       await cmd.execute();
@@ -63,8 +60,8 @@ async function main() {
   });
 
   // handle clean signals
-  process.on("SIGINT", () => gracefulExit(connection, 1)); // ctrl + c
-  process.on("SIGTERM", () => gracefulExit(connection, 1)); // kill command
+  process.on('SIGINT', () => gracefulExit(connection, 1)); // ctrl + c
+  process.on('SIGTERM', () => gracefulExit(connection, 1)); // kill command
 
   // parse cmd args
   program.parseAsync(process.argv).catch(async (err) => {

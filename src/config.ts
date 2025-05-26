@@ -1,19 +1,14 @@
-import path from "path";
-import { MigrationConfig } from "./types.js";
+import path from 'path';
+import { MigrationConfig } from './types.js';
 
 // TODO: support more in future
-export const CONFIG_FILES = [
-  "mangoose.config.js",
-  "mangoose-migrate-config.js",
-];
+export const CONFIG_FILES = ['mangoose.config.js', 'mangoose-migrate-config.js'];
 
-export async function loadConfig(
-  configPath?: string
-): Promise<MigrationConfig> {
+export async function loadConfig(configPath?: string): Promise<MigrationConfig> {
   const defaultConfig: Partial<MigrationConfig> = {
-    migrationsPath: "./migrations",
+    migrationsPath: './migrations',
     options: {
-      authSource: "admin",
+      authSource: 'admin',
       bufferCommands: false,
     },
   };
@@ -39,7 +34,7 @@ export async function loadConfig(
 
   if (!customConfig.connectionUri) {
     throw new Error(
-      "Database connection uri must be provided in config or MONGODB_URI env variable"
+      'Database connection uri must be provided in config or MONGODB_URI env variable',
     );
   }
 

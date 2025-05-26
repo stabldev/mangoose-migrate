@@ -1,11 +1,11 @@
-import { Connection } from "mongoose";
-import { MigrationOperation } from "../types.js";
+import { Connection } from 'mongoose';
+import { MigrationOperation } from '../types.js';
 
 export class AddField implements MigrationOperation {
   constructor(
     private readonly modelName: string,
     private readonly fieldName: string,
-    private readonly fieldDefinition: any
+    private readonly fieldDefinition: any,
   ) {}
 
   async applyUp(connection: Connection): Promise<void> {

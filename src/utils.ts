@@ -1,4 +1,4 @@
-import { Connection } from "mongoose";
+import { Connection } from 'mongoose';
 
 /**
  * Gracefully closes the MongoDB connection and exits the process.
@@ -7,10 +7,7 @@ import { Connection } from "mongoose";
  * @param {number} code Process exit code (0 for success, 1 for error)
  * @returns {Promise<void>} Nothing (exits process)
  */
-export async function gracefulExit(
-  connection: Connection,
-  code: number
-): Promise<void> {
+export async function gracefulExit(connection: Connection, code: number): Promise<void> {
   try {
     await connection.close();
     process.exit(code);

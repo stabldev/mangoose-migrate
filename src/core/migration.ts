@@ -1,5 +1,5 @@
-import { Connection } from "mongoose";
-import { MigrationOperation } from "../types.js";
+import { Connection } from 'mongoose';
+import { MigrationOperation } from '../types.js';
 
 export class Migration {
   private operations: MigrationOperation[] = [];
