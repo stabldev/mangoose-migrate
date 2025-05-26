@@ -1,5 +1,12 @@
 # mangoose-migrate
 
+## 0.1.4
+
+### Patch Changes
+
+- 66a348b: feat: support `init` command
+- 6b25a02: fix: gracefulExit on process end
+
 ## 0.1.3
 
 ### Patch Changes
