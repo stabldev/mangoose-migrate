@@ -8,53 +8,46 @@ import { gracefulExit } from './utils.js';
 import { InitCommand } from './commands/init.js';
 import pkg from '../package.json' assert { type: 'json' };
 
-async function main() {
-  const program = new Command();
-  program
-    .name('mangoose-migrate')
-    .description(pkg.description)
-    .version(pkg.version)
-    .option('-c, --config <path>');
+const program = new Command();
 
-  // load configuration
-  const options = program.opts();
-  const config = await loadConfig(options.config);
+program
+  .name('mangoose-migrate')
+  .description(pkg.description)
+  .version(pkg.version)
+  .option('-c, --config <path>', 'path to config file');
 
-  // create connection
-  const connection = await mongoose
-    .createConnection(config.connectionUri, {
-      ...config.options,
-    })
-    .asPromise();
-
-  connection.on('error', (err) => {
-    console.error(`MongoDB connection error: ${err}`);
-    process.exit(1);
-  });
-
-  // verify connection
-  try {
-    await connection.db?.command({ ping: 1 });
-    console.log('Connected to MongoDB');
-  } catch (err) {
-    console.error(`Failed to connect to MongoDB: ${err}`);
-    await gracefulExit(connection, 1);
-  }
-
-  // register init command
-  program.command('init').action(async () => {
+program
+  .command('init')
+  .description('Initialize the migration config')
+  .action(async () => {
     try {
       const cmd = new InitCommand();
       await cmd.execute();
-      await gracefulExit(connection, 0);
+      process.exit(0);
     } catch (err) {
       console.error(err);
-      await gracefulExit(connection, 1);
+      process.exit(1);
     }
   });
 
-  // register make command
-  program.command('make <name>').action(async (name) => {
+program
+  .command('make <name>')
+  .description('Create a new migration file')
+  .action(async (name) => {
+    const options = program.opts();
+    const config = await loadConfig(options.config);
+
+    const connection = await mongoose
+      .createConnection(config.connectionUri, {
+        ...config.options,
+      })
+      .asPromise();
+
+    connection.on('error', (err) => {
+      console.error(`MongoDB connection error: ${err}`);
+      process.exit(1);
+    });
+
     try {
       const cmd = new MakeCommand(config);
       await cmd.execute(name);
@@ -65,8 +58,24 @@ async function main() {
     }
   });
 
-  // register migrate command
-  program.command('migrate').action(async () => {
+program
+  .command('migrate')
+  .description('Run pending migrations')
+  .action(async () => {
+    const options = program.opts();
+    const config = await loadConfig(options.config);
+
+    const connection = await mongoose
+      .createConnection(config.connectionUri, {
+        ...config.options,
+      })
+      .asPromise();
+
+    connection.on('error', (err) => {
+      console.error(`MongoDB connection error: ${err}`);
+      process.exit(1);
+    });
+
     try {
       const cmd = new MigrateCommand(connection, config);
       await cmd.execute();
@@ -77,18 +86,8 @@ async function main() {
     }
   });
 
-  // handle clean signals
-  process.on('SIGINT', () => gracefulExit(connection, 1)); // ctrl + c
-  process.on('SIGTERM', () => gracefulExit(connection, 1)); // kill command
-
-  // parse cmd args
-  program.parseAsync(process.argv).catch(async (err) => {
-    console.error(`Program failed: ${err}`);
-    await gracefulExit(connection, 1);
-  });
-}
-
-main().catch((err) => {
+// parse and run CLI
+program.parseAsync(process.argv).catch((err) => {
   console.error(err);
   process.exit(1);
 });

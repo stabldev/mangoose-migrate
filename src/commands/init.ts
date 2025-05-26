@@ -17,12 +17,17 @@ export class InitCommand {
   async execute() {
     const configPath = path.resolve(process.cwd(), CONFIG_FILES[0]);
 
-    // check if config file already exists
-    await fs.access(configPath);
-    console.warn(`Config file already exists at ${CONFIG_FILES[0]}`);
-    const override = await promptOverride('Override existing config file?');
-    if (!override) {
-      throw new Error('Init cancelled');
+    try {
+      // check if config file already exists
+      await fs.access(configPath);
+      console.warn(`Config file already exists at ${CONFIG_FILES[0]}`);
+      const override = await promptOverride('Override existing config file?');
+      if (!override) {
+        throw new Error('Init cancelled');
+      }
+    } catch (err) {
+      if ((err as { code: string | undefined }).code !== 'ENOENT') throw err;
+      // else continue to create that file
     }
 
     // write config file

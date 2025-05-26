@@ -1,7 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { MigrationConfig } from '../types.js';
-import { Connection } from 'mongoose';
 
 const MIGRATION_TEMPLATE = `import { Migration } from "mangoose-migrate/core";
 import { CreateModel, AddField } from "mangoose-migrate/operations";
