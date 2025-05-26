@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import { Connection } from "mongoose";
 import path from "path";
 import { MigrationConfig } from "../types.js";
+import { logger } from "../utils.js";
 
 const MIGRATION_TEMPLATE = `import { Migration } from "mangoose-migrate/core";
 import { CreateModel, AddField } from "mangoose-migrate/operations";
@@ -56,6 +57,6 @@ export class MakeCommand {
 
     // write file
     await fs.writeFile(filepath, content);
-    console.log(`Created migration: ${filename}`);
+    logger.log(`Created migration: ${filename}`);
   }
 }

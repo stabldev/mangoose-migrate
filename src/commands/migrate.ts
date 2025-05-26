@@ -2,6 +2,7 @@ import { Connection } from "mongoose";
 import { MigrationRecorder } from "../core/recorder.js";
 import { MigrationLoader } from "../core/loader.js";
 import { MigrationConfig } from "../types.js";
+import { logger } from "../utils.js";
 
 export class MigrateCommand {
   constructor(
@@ -24,7 +25,7 @@ export class MigrateCommand {
           await migration.up(this.connection);
           await recorder.markAsApplied(file);
         } catch (err) {
-          console.error(`Failed to apply migration ${file}: ${err}`);
+          logger.error(`Failed to apply migration ${file}: ${err}`);
           throw err;
         }
       }
