@@ -5,10 +5,16 @@ import { MigrateCommand } from './commands/migrate.js';
 import { MakeCommand } from './commands/make.js';
 import { loadConfig } from './config.js';
 import { gracefulExit } from './utils.js';
+import { InitCommand } from './commands/init.js';
+import pkg from '../package.json' assert { type: 'json' };
 
 async function main() {
   const program = new Command();
-  program.name('mangoose-migrate').version('1.0.0').option('-c, --config <path>');
+  program
+    .name('mangoose-migrate')
+    .description(pkg.description)
+    .version(pkg.version)
+    .option('-c, --config <path>');
 
   // load configuration
   const options = program.opts();
@@ -35,10 +41,22 @@ async function main() {
     await gracefulExit(connection, 1);
   }
 
+  // register init command
+  program.command('init').action(async () => {
+    try {
+      const cmd = new InitCommand();
+      await cmd.execute();
+      await gracefulExit(connection, 0);
+    } catch (err) {
+      console.error(err);
+      await gracefulExit(connection, 1);
+    }
+  });
+
   // register make command
   program.command('make <name>').action(async (name) => {
     try {
-      const cmd = new MakeCommand(connection, config);
+      const cmd = new MakeCommand(config);
       await cmd.execute(name);
       await gracefulExit(connection, 0);
     } catch (err) {
