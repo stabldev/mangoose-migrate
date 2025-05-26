@@ -1,5 +1,11 @@
 # mangoose-migrate
 
+## 0.1.2
+
+### Patch Changes
+
+- 4f89f09: fix: proper program execution
+
 ## 0.1.1
 
 ### Patch Changes
