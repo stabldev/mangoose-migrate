@@ -1,6 +1,12 @@
 import path from "path";
 import { MigrationConfig } from "./types.js";
 
+// TODO: support more in future
+export const CONFIG_FILES = [
+  "mangoose.config.js",
+  "mangoose-migrate-config.js",
+];
+
 export async function loadConfig(
   configPath?: string
 ): Promise<MigrationConfig> {
@@ -15,7 +21,7 @@ export async function loadConfig(
   let customConfig: Partial<MigrationConfig> = {};
 
   try {
-    const configFile = configPath || "mangoose-migrate.config.js";
+    const configFile = configPath || CONFIG_FILES[0];
     const fullPath = path.resolve(process.cwd(), configFile);
     const importConfingModule = await import(fullPath);
     customConfig = importConfingModule.default || importConfingModule;

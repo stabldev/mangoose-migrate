@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { MigrateCommand } from "./commands/migrate.js";
 import { MakeCommand } from "./commands/make.js";
 import { loadConfig } from "./config.js";
-import { logger } from "./utils.js";
+import { gracefulExit } from "./utils.js";
 
 async function main() {
   const program = new Command();
@@ -25,17 +25,17 @@ async function main() {
     .asPromise();
 
   connection.on("error", (err) => {
-    logger.error(`MongoDB connection error: ${err}`);
+    console.error(`MongoDB connection error: ${err}`);
     process.exit(1);
   });
 
   // verify connection
   try {
     await connection.db?.command({ ping: 1 });
-    logger.log("Successfully connected to MongoDB");
+    console.log("Connected to MongoDB");
   } catch (err) {
-    logger.error(`Failed to connect to MongoDB: ${err}`);
-    process.exit(1);
+    console.error(`Failed to connect to MongoDB: ${err}`);
+    await gracefulExit(connection, 1);
   }
 
   // register make command
@@ -43,9 +43,10 @@ async function main() {
     try {
       const cmd = new MakeCommand(connection, config);
       await cmd.execute(name);
+      await gracefulExit(connection, 0);
     } catch (err) {
-      logger.error(`Error creating migration: ${err}`);
-      process.exit(1);
+      console.error(`Error creating migration: ${err}`);
+      await gracefulExit(connection, 1);
     }
   });
 
@@ -54,20 +55,25 @@ async function main() {
     try {
       const cmd = new MigrateCommand(connection, config);
       await cmd.execute();
+      await gracefulExit(connection, 0);
     } catch (err) {
-      logger.error(`Migration failed: ${err}`);
-      process.exit(1);
+      console.error(`Migration failed: ${err}`);
+      await gracefulExit(connection, 1);
     }
   });
 
+  // handle clean signals
+  process.on("SIGINT", () => gracefulExit(connection, 1)); // ctrl + c
+  process.on("SIGTERM", () => gracefulExit(connection, 1)); // kill command
+
   // parse cmd args
-  program.parseAsync(process.argv).catch((err) => {
-    logger.error(`Program failed: ${err}`);
-    process.exit(1);
+  program.parseAsync(process.argv).catch(async (err) => {
+    console.error(`Program failed: ${err}`);
+    await gracefulExit(connection, 1);
   });
 }
 
 main().catch((err) => {
-  logger.error(err);
+  console.error(err);
   process.exit(1);
 });

@@ -57,6 +57,6 @@ export class MakeCommand {
 
     // write file
     await fs.writeFile(filepath, content);
-    logger.log(`Created migration: ${filename}`);
+    console.log(`Created migration: ${filename}`);
   }
 }

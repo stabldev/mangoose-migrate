@@ -25,7 +25,7 @@ export class MigrateCommand {
           await migration.up(this.connection);
           await recorder.markAsApplied(file);
         } catch (err) {
-          logger.error(`Failed to apply migration ${file}: ${err}`);
+          console.error(`Failed to apply migration ${file}: ${err}`);
           throw err;
         }
       }
