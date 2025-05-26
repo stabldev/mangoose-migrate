@@ -1,5 +1,12 @@
 # mangoose-migrate
 
+## 0.1.3
+
+### Patch Changes
+
+- dce148d: fix: invalid config argument to loadConfig
+- dce148d: refactor: handle both esm and commonjs modules
+
 ## 0.1.2
 
 ### Patch Changes
