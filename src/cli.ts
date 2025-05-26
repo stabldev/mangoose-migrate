@@ -8,8 +8,11 @@ import { gracefulExit } from './utils.js';
 import { InitCommand } from './commands/init.js';
 import pkg from '../package.json' assert { type: 'json' };
 
-const program = new Command();
+// load env
+import dotenv from 'dotenv';
+dotenv.config();
 
+const program = new Command();
 program
   .name('mangoose-migrate')
   .description(pkg.description)
