@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { CONFIG_FILES } from '../config.js';
+import { promptOverride } from '../utils.js';
 
 const CONFIG_TEMPLATE = `export default {
   connectionUri: process.env.MONGODB_URI,
@@ -19,7 +20,7 @@ export class InitCommand {
     // check if config file already exists
     await fs.access(configPath);
     console.warn(`Config file already exists at ${CONFIG_FILES[0]}`);
-    const override = await promptOverride();
+    const override = await promptOverride('Override existing config file?');
     if (!override) {
       throw new Error('Init cancelled');
     }
@@ -31,15 +32,4 @@ export class InitCommand {
       'Edit this file with your MongoDB connection details before running migrations.',
     );
   }
-}
-
-async function promptOverride(): Promise<boolean> {
-  console.warn('Override existing config file? (y/N) ');
-  process.stdin.setEncoding('utf8');
-
-  return new Promise((resolve) => {
-    process.stdin.once('data', (data) => {
-      resolve(data.toString().trim().toLowerCase() === 'y');
-    });
-  });
 }

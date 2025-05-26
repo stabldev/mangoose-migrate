@@ -2,7 +2,6 @@ import { Connection } from 'mongoose';
 import { MigrationRecorder } from '../core/recorder.js';
 import { MigrationLoader } from '../core/loader.js';
 import { MigrationConfig } from '../types.js';
-import { logger } from '../utils.js';
 
 export class MigrateCommand {
   constructor(

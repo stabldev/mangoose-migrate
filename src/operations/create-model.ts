@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Connection } from 'mongoose';
 import { MigrationOperation } from '../types.js';
 import mongoose from 'mongoose';

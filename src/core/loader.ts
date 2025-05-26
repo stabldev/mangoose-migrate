@@ -11,7 +11,7 @@ export class MigrationLoader {
       const files = await fs.readdir(this.migrationsPath);
       return files.filter((file) => file.endsWith('.js')).sort();
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === 'ENOENT') {
+      if ((err as { code: string | undefined }).code === 'ENOENT') {
         // create migrations dir if doesn't exist
         await fs.mkdir(this.migrationsPath, { recursive: true });
         return [];

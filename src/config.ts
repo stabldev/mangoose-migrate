@@ -20,7 +20,7 @@ export async function loadConfig(configPath?: string): Promise<MigrationConfig> 
     const fullPath = path.resolve(process.cwd(), configFile);
     const importConfingModule = await import(fullPath);
     customConfig = importConfingModule.default || importConfingModule;
-  } catch (err) {
+  } catch {
     if (configPath) {
       throw new Error(`Failed to load config file: ${configPath}`);
     } else {

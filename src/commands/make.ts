@@ -1,8 +1,6 @@
 import fs from 'fs/promises';
-import { Connection } from 'mongoose';
 import path from 'path';
 import { MigrationConfig } from '../types.js';
-import { logger } from '../utils.js';
 
 const MIGRATION_TEMPLATE = `import { Migration } from "mangoose-migrate/core";
 import { CreateModel, AddField } from "mangoose-migrate/operations";
@@ -25,10 +23,7 @@ export default class {{className}} extends Migration {
 `;
 
 export class MakeCommand {
-  constructor(
-    private readonly connection: Connection,
-    private readonly config: MigrationConfig,
-  ) {}
+  constructor(private readonly config: MigrationConfig) {}
 
   async execute(name: string): Promise<void> {
     // ensure migrations path exists

@@ -16,3 +16,20 @@ export async function gracefulExit(connection: Connection, code: number): Promis
     process.exit(code === 0 ? 1 : code);
   }
 }
+
+/**
+ * Show prompt to override something with yes or no.
+ *
+ * @param {string} message The MongoDB connection to close
+ * @returns {Promise<boolean>} Boolean as promise
+ */
+export async function promptOverride(message: string): Promise<boolean> {
+  console.warn(`${message} (y/N) `);
+  process.stdin.setEncoding('utf8');
+
+  return new Promise((resolve) => {
+    process.stdin.once('data', (data) => {
+      resolve(data.toString().trim().toLowerCase() === 'y');
+    });
+  });
+}
