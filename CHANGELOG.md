@@ -1,5 +1,14 @@
 # mangoose-migrate
 
+## 0.1.5
+
+### Patch Changes
+
+- 5fa525e: feat: command program options from pkg
+- c999e8b: fix: top-level program register
+- dc09a97: feat: add dotenv support
+- 6db3a38: fix: eslint errors and improved QOL
+
 ## 0.1.4
 
 ### Patch Changes
