@@ -41,17 +41,23 @@
   },
   "scripts": {
     "build": "tsup",
-    "prepublishOnly": "npm run build",
+    "lint": "eslint . --max-warnings 0",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "npm run build",
     "changeset": "changeset",
     "release:version": "changeset version",
     "release:publish": "npm run build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.4",
+    "@eslint/compat": "^1.2.9",
+    "@eslint/js": "^9.27.0",
     "@types/node": "^22.15.21",
+    "eslint": "^9.27.0",
+    "globals": "^16.2.0",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
   },
   "dependencies": {
     "commander": "^14.0.0",
