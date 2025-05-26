@@ -6,33 +6,36 @@
 
 A lightweight migration tool for Mongoose (MongoDB), inspired by Django's migration system.
 
-> WIP 🚧
-
 ## Installation
 
 ```bash
-npm install -D mangoose-migrate
+npm i -g mangoose-migrate
+# or local
+npm i -D mangoose-migrate
 ```
 
-Or use directly with npx:
+Or use directly with npx (recommended):
 
 ```bash
 npx mangoose-migrate [command]
 # pnpm dlx mangoose-migrate [command]
 ```
 
-## Basic Commands
+## Getting started with the CLI
 
-Create new migration:
+Before you start make sure you setup `.env` file or `mangoose.config.js` config file so you don't need to provide cli arguments on each command.
+
+To generate a `mangoose.config.js` config file in your project root with default options:
 
 ```bash
-npx mangoose-migrate make <name>
+npx mangoose-migrate init
 ```
 
-Run migrations:
+Other CLI commands:
 
 ```bash
-npx mangoose-migrate migrate
+npx mangoose-migrate make <name> # creates a migration file
+npx mangoose-migrate migrate # run pending migrations
 ```
 
 ## Configuration
@@ -46,12 +49,12 @@ export MONGODB_URI="mongodb://user:pass@localhost:27017/mydb?authSource=admin"
 ### Option 2: Config File
 
 ```js
-// mangoose-migrate.config.js
-module.exports = {
-  connectionUri: 'mongodb://localhost:27017/mydb',
-  migrationsPath: './migrations',
+// mangoose.config.js
+export default {
+  connectionUri: process.env.MONGODB_URI,
+  migrationsPath: "./migrations",
   options: {
-    authSource: 'admin',
+    authSource: "admin",
     retryWrites: true,
     // ...
   },
