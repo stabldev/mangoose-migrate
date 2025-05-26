@@ -25,16 +25,16 @@ async function main() {
     .asPromise();
 
   connection.on("error", (err) => {
-    logger.error(`MongoDB connection error: ${err}`);
+    console.error(`MongoDB connection error: ${err}`);
     process.exit(1);
   });
 
   // verify connection
   try {
     await connection.db?.command({ ping: 1 });
-    logger.log("Successfully connected to MongoDB");
+    console.log("Connected to MongoDB");
   } catch (err) {
-    logger.error(`Failed to connect to MongoDB: ${err}`);
+    console.error(`Failed to connect to MongoDB: ${err}`);
     process.exit(1);
   }
 
@@ -44,7 +44,7 @@ async function main() {
       const cmd = new MakeCommand(connection, config);
       await cmd.execute(name);
     } catch (err) {
-      logger.error(`Error creating migration: ${err}`);
+      console.error(`Error creating migration: ${err}`);
       process.exit(1);
     }
   });
@@ -55,19 +55,19 @@ async function main() {
       const cmd = new MigrateCommand(connection, config);
       await cmd.execute();
     } catch (err) {
-      logger.error(`Migration failed: ${err}`);
+      console.error(`Migration failed: ${err}`);
       process.exit(1);
     }
   });
 
   // parse cmd args
   program.parseAsync(process.argv).catch((err) => {
-    logger.error(`Program failed: ${err}`);
+    console.error(`Program failed: ${err}`);
     process.exit(1);
   });
 }
 
 main().catch((err) => {
-  logger.error(err);
+  console.error(err);
   process.exit(1);
 });
