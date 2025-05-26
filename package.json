@@ -1,6 +1,6 @@
 {
   "name": "mangoose-migrate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A lightweight migration tool for Mongoose (MongoDB), inspired by Django's migration system.",
   "keywords": [
     "mongoose",
