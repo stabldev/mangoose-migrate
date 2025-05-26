@@ -35,7 +35,7 @@ async function main() {
     console.log("Connected to MongoDB");
   } catch (err) {
     console.error(`Failed to connect to MongoDB: ${err}`);
-    await gracefulExit(connection);
+    await gracefulExit(connection, 1);
   }
 
   // register make command
@@ -43,10 +43,10 @@ async function main() {
     try {
       const cmd = new MakeCommand(connection, config);
       await cmd.execute(name);
-      await gracefulExit(connection);
+      await gracefulExit(connection, 0);
     } catch (err) {
       console.error(`Error creating migration: ${err}`);
-      process.exit(1);
+      await gracefulExit(connection, 1);
     }
   });
 
@@ -55,17 +55,21 @@ async function main() {
     try {
       const cmd = new MigrateCommand(connection, config);
       await cmd.execute();
-      await gracefulExit(connection);
+      await gracefulExit(connection, 0);
     } catch (err) {
       console.error(`Migration failed: ${err}`);
-      process.exit(1);
+      await gracefulExit(connection, 1);
     }
   });
 
+  // handle clean signals
+  process.on("SIGINT", () => gracefulExit(connection, 1)); // ctrl + c
+  process.on("SIGTERM", () => gracefulExit(connection, 1)); // kill command
+
   // parse cmd args
-  program.parseAsync(process.argv).catch((err) => {
+  program.parseAsync(process.argv).catch(async (err) => {
     console.error(`Program failed: ${err}`);
-    process.exit(1);
+    await gracefulExit(connection, 1);
   });
 }
 
