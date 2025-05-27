@@ -11,9 +11,8 @@ export class MigrateCommand {
 
   async execute(): Promise<void> {
     const recorder = new MigrationRecorder(this.connection);
-    await recorder.init();
-
     const loader = new MigrationLoader(this.config.migrationsPath);
+
     const migrationFiles = await loader.getMigrationFiles();
     const appliedMigrations = await recorder.getAppliedMigrations();
 

@@ -5,11 +5,14 @@ export class MigrationRecorder {
   private model: Model<MigrationModel>;
 
   constructor(private readonly connection: Connection) {
-    // temporary init, replace later with proper schema
-    this.model = connection.model<MigrationModel>('Migration');
+    this.model = null as unknown as Model<MigrationModel>;
+    // init model
+    this.init().catch((err) => {
+      throw new Error(`MigrationRecorder failed to init: ${err}`);
+    });
   }
 
-  async init(): Promise<void> {
+  private async init(): Promise<void> {
     // proper init
     this.model = this.connection.model(
       'Migration',
