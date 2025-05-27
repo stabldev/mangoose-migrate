@@ -1,5 +1,12 @@
 # mangoose-migrate
 
+## 0.1.6
+
+### Patch Changes
+
+- a056682: chore(deps): bump mongoose from 8.15.0 to 8.15.1
+- f268788: docs: update readme
+
 ## 0.1.5
 
 ### Patch Changes
