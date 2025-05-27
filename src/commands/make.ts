@@ -49,7 +49,7 @@ export class MakeCommand {
     const className = name
       .split('-')
       .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(' ');
+      .join('');
 
     const content = MIGRATION_TEMPLATE.replace(/{{className}}/g, className).replace(
       /{{name}}/g,
