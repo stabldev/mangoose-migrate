@@ -34,8 +34,14 @@ export class MakeCommand {
     const nextNum = files.length + 1;
     const migrationNum = nextNum.toString().padStart(4, '0');
 
+    // normalize name
+    // https://www.w3resource.com/javascript-exercises/fundamental/javascript-fundamental-exercise-120.php
+    const _name = name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '')
+      .replace(/_+/g, '_');
     // create filename
-    const _name = name.replace('-', '_');
     const filename = `${migrationNum}_${_name}.js`;
     const filepath = path.join(this.config.migrationsPath, filename);
 
