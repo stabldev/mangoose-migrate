@@ -1,5 +1,12 @@
 # mangoose-migrate
 
+## 0.1.7
+
+### Patch Changes
+
+- d54e78f: fix: `migrate` command issues
+- 92cf3b6: fix: normalize `make <name>` arg
+
 ## 0.1.6
 
 ### Patch Changes
