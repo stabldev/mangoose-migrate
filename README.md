@@ -2,7 +2,7 @@
 
 ![NPM Version](https://img.shields.io/npm/v/mangoose-migrate?style=flat-square)
 ![GitHub License](https://img.shields.io/github/license/moonlitgrace/mangoose-migrate?style=flat-square)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/moonlitgrace/mangoose-migrate/release.yml?style=flat-square)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/moonlitgrace/mangoose-migrate/ci.yml?style=flat-square)
 
 A lightweight migration tool for Mongoose (MongoDB), inspired by Django's migration system.
 
