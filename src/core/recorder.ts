@@ -5,21 +5,16 @@ export class MigrationRecorder {
   private model: Model<MigrationModel>;
 
   constructor(private readonly connection: Connection) {
-    // temporary init, replace later with proper schema
-    this.model = connection.model<MigrationModel>('Migration');
+    this.model = null as unknown as Model<MigrationModel>;
   }
 
   async init(): Promise<void> {
-    // proper init
-    this.model = this.connection.model(
-      'Migration',
-      new mongoose.Schema<MigrationModel>({
-        name: { type: String, required: true, unique: true },
-        appliedAt: { type: Date, default: Date.now },
-      }),
-    );
+    const schema = new mongoose.Schema<MigrationModel>({
+      name: { type: String, required: true, unique: true },
+      appliedAt: { type: Date, default: Date.now },
+    });
 
-    // create collection if doesn't exists
+    this.model = this.connection.model<MigrationModel>('Migration', schema);
     await this.model.createCollection();
   }
 
