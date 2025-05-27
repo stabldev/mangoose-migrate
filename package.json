@@ -20,23 +20,20 @@
   "license": "MIT",
   "author": "moonlitgrace",
   "type": "module",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
   "bin": {
-    "mangoose-migrate": "./dist/cli.cjs"
+    "mangoose-migrate": "./dist/cli.js"
   },
   "files": [
     "dist"
   ],
   "exports": {
     "./core": {
-      "require": "./dist/core/index.cjs",
-      "types": "./dist/core/index.d.cts"
+      "import": "./dist/core/index.js",
+      "types": "./dist/core/index.d.ts"
     },
     "./operations": {
-      "require": "./dist/operations/index.cjs",
-      "types": "./dist/operations/index.d.cts"
+      "import": "./dist/operations/index.js",
+      "types": "./dist/operations/index.d.ts"
     }
   },
   "scripts": {

@@ -2,7 +2,7 @@ import { Connection } from 'mongoose';
 import { MigrationOperation } from '../types.js';
 
 export class Migration {
-  private operations: MigrationOperation[] = [];
+  public readonly operations: MigrationOperation[] = [];
 
   async up(connection: Connection): Promise<void> {
     for (const operation of this.operations) {

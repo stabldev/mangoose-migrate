@@ -21,14 +21,14 @@ export class MigrationLoader {
   }
 
   async loadMigration(fileName: string): Promise<MigrationFile> {
-    const fullPath = path.join(this.migrationsPath, fileName);
-    const importedModule = await import(fullPath);
-    const migrationModule = importedModule.default || importedModule;
+    const migrationPath = path.join(this.migrationsPath, fileName);
+    const migrationUrl = new URL(`file://${path.resolve(migrationPath)}`);
 
-    if (!migrationModule) {
-      throw new Error(`Migration ${fileName} has no default export`);
+    try {
+      const module = await import(migrationUrl.href);
+      return new module.default();
+    } catch (err) {
+      throw new Error(`Migration ${fileName} has no default export: ${err}`);
     }
-
-    return migrationModule;
   }
 }

@@ -1,7 +1,7 @@
 import { defineConfig, Options } from 'tsup';
 
 const baseConfig: Options = {
-  format: ['cjs'],
+  format: ['esm'],
   target: 'es2020',
   outDir: 'dist',
   external: ['mongoose'],

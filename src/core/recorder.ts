@@ -6,23 +6,15 @@ export class MigrationRecorder {
 
   constructor(private readonly connection: Connection) {
     this.model = null as unknown as Model<MigrationModel>;
-    // init model
-    this.init().catch((err) => {
-      throw new Error(`MigrationRecorder failed to init: ${err}`);
-    });
   }
 
-  private async init(): Promise<void> {
-    // proper init
-    this.model = this.connection.model(
-      'Migration',
-      new mongoose.Schema<MigrationModel>({
-        name: { type: String, required: true, unique: true },
-        appliedAt: { type: Date, default: Date.now },
-      }),
-    );
+  async init(): Promise<void> {
+    const schema = new mongoose.Schema<MigrationModel>({
+      name: { type: String, required: true, unique: true },
+      appliedAt: { type: Date, default: Date.now },
+    });
 
-    // create collection if doesn't exists
+    this.model = this.connection.model<MigrationModel>('Migration', schema);
     await this.model.createCollection();
   }
 

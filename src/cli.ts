@@ -6,7 +6,7 @@ import { MakeCommand } from './commands/make.js';
 import { loadConfig } from './config.js';
 import { gracefulExit } from './utils.js';
 import { InitCommand } from './commands/init.js';
-import pkg from '../package.json' assert { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 
 // load env
 import dotenv from 'dotenv';
