@@ -7,21 +7,20 @@ on:
   pull_request:
 
 jobs:
-  lint:
-    name: Lint
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 18, 20 ]
+    name: Build on ${{ matrix.node }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.JS
+      - name: Setup Node ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
-          version: 20
+          version: ${{ matrix.node }}
           cache: npm
 
-      - name: Install Dependencies
-        run: npm ci
-
-      - name: Run Lint
-        run: npm run lint
+      - run: npm ci
+      - run: npm run build
